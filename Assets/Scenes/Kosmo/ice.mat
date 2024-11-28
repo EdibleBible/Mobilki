@@ -105,6 +105,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: f6ce9f4a0fa3ff3438e4be190d402498, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _emisiv:
+        m_Texture: {fileID: 2800000, guid: ed582833278e97e4aba90ef33c07ee15, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _metalic:
         m_Texture: {fileID: 2800000, guid: 15dce0b1e2e1b6a49b378b66157e9019, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -145,6 +149,7 @@ Material:
     - _Steps: 2
     - _UVSec: 0
     - _ZWrite: 1
+    - _emmisiv_strength: -0.15
     - _float_metalic: 14.31
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
