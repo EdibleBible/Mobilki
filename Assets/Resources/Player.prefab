@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2854286537624998728}
   - component: {fileID: 3244510303707465446}
-  - component: {fileID: 2233658289210808293}
-  - component: {fileID: 3827623638040309784}
+  - component: {fileID: 8557660512588389208}
   - component: {fileID: 3258883288400277544}
   - component: {fileID: 7443757876519788952}
   - component: {fileID: 6358712126605238659}
-  - component: {fileID: 8557660512588389208}
-  - component: {fileID: 5551796358462016907}
+  - component: {fileID: 8825914102135015273}
+  - component: {fileID: -1945149546827623964}
+  - component: {fileID: -1695726989237426726}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -69,41 +69,29 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2233658289210808293
-MonoBehaviour:
+--- !u!136 &8557660512588389208
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6296a654dfd2a294991367e0177c99d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3827623638040309784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 395b8ab62ab3d2b4ca29c7e60a5c1f84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 3244510303707465446}
-  mainCamera: {fileID: 0}
-  inputReader: {fileID: 2233658289210808293}
-  moveSpeed: 14
-  moveAcceleration: 0.5
-  moveBreak: 0.2
-  jumpAcceleration: 0.5
-  gravityValue: -9.81
-  groundLayer:
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3258883288400277544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,15 +99,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b52b33342f38a9b4cb75a9794d43162e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pickupedObject: {fileID: 0}
-  inputReader: {fileID: 2233658289210808293}
+  inputReader: {fileID: -1945149546827623964}
   pickupTransform: {fileID: 899728579140852985}
-  holdItemTransform: {fileID: 856914389777712574}
+  HoldItemTransform: {fileID: 856914389777712574}
   pickupRange: 2
   pickupLayer:
     serializedVersion: 2
@@ -166,7 +154,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b84787c01f544c6498ef79593d239247, type: 3}
   m_Name: 
@@ -180,59 +168,68 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ad0e6396e017df49a3c20aea95fc90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   modelObject: {fileID: 6277260474911014859}
-  playerMovement: {fileID: 3827623638040309784}
+  playerMovement: {fileID: -1695726989237426726}
   e_OnPlayerHitted: {fileID: 11400000, guid: e0bf7cdbdfac6774c825c8b43b385415, type: 2}
---- !u!136 &8557660512588389208
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2297139517193573902}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5551796358462016907
+--- !u!114 &8825914102135015273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  SortKey: 1375611421
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -1945149546827623964}
+  - {fileID: -1695726989237426726}
+--- !u!114 &-1945149546827623964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6296a654dfd2a294991367e0177c99d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1695726989237426726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395b8ab62ab3d2b4ca29c7e60a5c1f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 3244510303707465446}
+  mainCamera: {fileID: 0}
+  inputReader: {fileID: -1945149546827623964}
+  moveSpeed: 5
+  moveAcceleration: 0.1
+  moveBreak: 0.1
+  jumpAcceleration: 0.2
+  gravityValue: -9.81
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3606922288392187730
 GameObject:
   m_ObjectHideFlags: 0

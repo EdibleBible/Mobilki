@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Fusion;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputReader : MonoBehaviour
+public class PlayerInputReader : NetworkBehaviour
 {
     private PlayerInputActions playerActions;
 
@@ -17,18 +18,11 @@ public class PlayerInputReader : MonoBehaviour
         if (playerActions == null)
             playerActions = new PlayerInputActions();
 
-        // Register movement events
         playerActions.Player.Move.performed += OnMovePerformed;
         playerActions.Player.Move.canceled += OnMoveCanceled;
-
-        // Register jump events
         playerActions.Player.Jump.performed += OnJumpPerformed;
         playerActions.Player.Jump.canceled += OnJumpCanceled;
-
-        // Register interact events
         playerActions.Player.Interact.performed += OnInteractPerform;
-
-        // Register charge events
         playerActions.Player.Charge.started += OnChargeStartedInternal;
         playerActions.Player.Charge.canceled += OnChargeCanceledInternal;
     }
@@ -71,11 +65,11 @@ public class PlayerInputReader : MonoBehaviour
 
     private void OnChargeStartedInternal(InputAction.CallbackContext context)
     {
-        OnChargeStarted?.Invoke(); // Emituje zdarzenie rozpoczęcia ładowania
+        OnChargeStarted?.Invoke();
     }
 
     private void OnChargeCanceledInternal(InputAction.CallbackContext context)
     {
-        OnChargeCanceled?.Invoke(); // Emituje zdarzenie zakończenia ładowania
+        OnChargeCanceled?.Invoke();
     }
 }

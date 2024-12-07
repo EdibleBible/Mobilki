@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Fusion;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Reference")]
     [SerializeField] private CharacterController playerController;
@@ -26,17 +27,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        mainCamera = Camera.main;
+        if (HasInputAuthority)
+        {
+            mainCamera = Camera.main; // Lokalny gracz używa swojej kamery
+        }
     }
 
     private void Update()
     {
+        if (!HasInputAuthority) return;
+
         ApplyMovement();
     }
 
     private void LateUpdate()
     {
-        RotateTowardsCursor(); 
+        if (!HasInputAuthority) return;
+
+        RotateTowardsCursor();
     }
 
     private void ApplyMovement()
@@ -75,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotateTowardsCursor()
     {
-        if(!IsGrounded())
         if (mainCamera == null) return;
 
         // Rzutuj promień od kursora w przestrzeni ekranu do świata gry

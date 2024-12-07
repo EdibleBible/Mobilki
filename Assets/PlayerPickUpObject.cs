@@ -8,7 +8,7 @@ public class PlayerPickUpObject : MonoBehaviour
 
     [Header("Values")]
     [SerializeField] private Transform pickupTransform;
-    [SerializeField] private Transform holdItemTransform;
+    [SerializeField] public Transform HoldItemTransform;
     [SerializeField] private float pickupRange = 2f;
     [SerializeField] private LayerMask pickupLayer;
 
@@ -47,7 +47,7 @@ public class PlayerPickUpObject : MonoBehaviour
             if (pickable.IsDisable)
                 return;
 
-            pickupedObject = pickable.PickUpItem(holdItemTransform);
+            pickupedObject = pickable.PickUpItem(HoldItemTransform, transform);
         }
         else
         {
@@ -57,14 +57,12 @@ public class PlayerPickUpObject : MonoBehaviour
             pickable.DropItem(ref pickupedObject);
         }
     }
-
     private void StartCharge()
     {
         Debug.Log("Start Charging");
         isCharging = true;
         currentChargeTime = 0f;
     }
-
     private void StopCharge()
     {
         isCharging = false;
@@ -79,7 +77,6 @@ public class PlayerPickUpObject : MonoBehaviour
             item.ThrowItemWithDrop(ref pickupedObject, throwPower * chargePower, pickupTransform.forward);
         }
     }
-
     private void Update()
     {
         // Debugowanie BoxCast
@@ -107,7 +104,6 @@ public class PlayerPickUpObject : MonoBehaviour
             Debug.Log($"Charging... Power: {chargePower}");
         }
     }
-
     private void DebugBoxCast()
     {
         // Rysowanie BoxCast w edytorze
@@ -123,7 +119,6 @@ public class PlayerPickUpObject : MonoBehaviour
         // Opcjonalnie: Można narysować box, aby pokazać jego zasięg
         Debug.DrawRay(startPosition, Vector3.up * 0.1f, Color.blue); // Mała niebieska linia, wskazująca początek promienia
     }
-
     private float GetChargePower()
     {
         // Oblicz aktualną moc na podstawie krzywej

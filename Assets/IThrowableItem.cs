@@ -14,7 +14,7 @@ public interface IThrowableItem
 public interface IPickable
 {
     public bool IsDisable { get; set; }
-    public GameObject PickUpItem(Transform holdParent);
+    public GameObject PickUpItem(Transform holdParent, Transform playerParent);
     public void DropItem(ref GameObject ItemInPlayerHand);
     public void HighLight();
 }

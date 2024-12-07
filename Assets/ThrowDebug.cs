@@ -6,7 +6,7 @@ public class ThrowDebug : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             itemToThrow.ThrowItem(1000, itemToThrow.transform.right);
         }
