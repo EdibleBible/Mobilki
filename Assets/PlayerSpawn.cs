@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using Fusion;
+using System.Collections;
 using UnityEngine;
 
-public class PlayerSpawn : MonoBehaviour
+public class PlayerSpawn : NetworkBehaviour
 {
     [SerializeField] private GameEvent e_OnPlayerSpawnEvent;
     [SerializeField] private GameEvent e_OnPlayerDespawnEvent;

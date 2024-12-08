@@ -514,6 +514,7 @@ MonoBehaviour:
   sessionListContentParent: {fileID: 333360023}
   SessionListEnktryPrefab: {fileID: 4599995358906894963, guid: eee58d66c5b81de469278bd1282475ff, type: 3}
   gameplayScene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  lobbyScene: {fileID: 102900000, guid: f2119fae3829f3e43a42ae51fa377416, type: 3}
   PlayerPrefab: {fileID: 2297139517193573902, guid: b26dec167f3481140b9131d1d6568fa3, type: 3}
 --- !u!4 &347005920
 Transform:

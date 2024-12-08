@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3258883288400277544}
   - component: {fileID: 7443757876519788952}
   - component: {fileID: 6358712126605238659}
-  - component: {fileID: 8825914102135015273}
   - component: {fileID: -1945149546827623964}
   - component: {fileID: -1695726989237426726}
   m_Layer: 3
@@ -176,25 +175,6 @@ MonoBehaviour:
   modelObject: {fileID: 6277260474911014859}
   playerMovement: {fileID: -1695726989237426726}
   e_OnPlayerHitted: {fileID: 11400000, guid: e0bf7cdbdfac6774c825c8b43b385415, type: 2}
---- !u!114 &8825914102135015273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2297139517193573902}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 1375611421
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: -1945149546827623964}
-  - {fileID: -1695726989237426726}
 --- !u!114 &-1945149546827623964
 MonoBehaviour:
   m_ObjectHideFlags: 0

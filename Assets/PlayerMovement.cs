@@ -4,7 +4,7 @@ using Fusion;
 public class PlayerMovement : NetworkBehaviour
 {
     [Header("Reference")]
-    [SerializeField] private CharacterController playerController;
+    [SerializeField] private NetworkCharacterController playerController;
     [SerializeField] private Camera mainCamera; // Dodano referencję do kamery
     [SerializeField] private PlayerInputReader inputReader;
 
@@ -25,6 +25,8 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 currentMoveVelocity;
     private float verticalVelocity;
 
+    [Networked] private NetworkButtons PreviousButtons { get; set; }
+
     private void Awake()
     {
         if (HasInputAuthority)
@@ -33,53 +35,101 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
-        if (!HasInputAuthority) return;
-
-        ApplyMovement();
-    }
-
-    private void LateUpdate()
-    {
-        if (!HasInputAuthority) return;
-
+        // Rotate Toward
+        Debug.Log($"Rotate Toward");
         RotateTowardsCursor();
+
+        if (GetInput(out NetInput input))
+        {
+            // Log input direction and buttons pressed
+            Debug.Log($"Input received. Direction: {input.Direction}, Buttons: {input.Buttons}");
+
+            Vector3 worldDirection = new Vector3(input.Direction.x, 0f, input.Direction.y);
+
+            // Log world direction
+            Debug.Log($"World Direction: {worldDirection}");
+
+
+            // Log if jump button was pressed
+            bool jumpPressed = input.Buttons.WasPressed(PreviousButtons, InputButton.Jump);
+            Debug.Log($"Jump pressed: {jumpPressed}");
+
+            ApplyMovement(worldDirection, jumpPressed);
+
+            // Log previous buttons state
+            Debug.Log($"Previous Buttons: {PreviousButtons}");
+
+            PreviousButtons = input.Buttons;
+        }
+        else
+        {
+            // Log if no input is received
+            Debug.Log("No input received.");
+        }
     }
 
-    private void ApplyMovement()
-    {
-        // Smooth acceleration and deceleration for horizontal movement
-        if (inputReader.MoveInput.magnitude > 0)
+
+    /*    private void Update()
         {
-            currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, inputReader.MoveInput * moveSpeed, moveAcceleration);
+            if (!HasInputAuthority) return;
+
+            ApplyMovement();
+        }
+
+        private void LateUpdate()
+        {
+            if (!HasInputAuthority) return;
+
+            RotateTowardsCursor();
+        }*/
+
+    private void ApplyMovement(Vector3 worldDirection, bool isJump)
+    {
+        // Log the input world direction and whether jump is pressed
+        Debug.Log($"World Direction: {worldDirection}, Is Jump: {isJump}");
+
+        // Smooth acceleration and deceleration for horizontal movement
+        if (worldDirection.magnitude > 0)
+        {
+            currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, worldDirection * moveSpeed, moveAcceleration);
+            Debug.Log($"Current Move Velocity (accelerating): {currentMoveVelocity}");
         }
         else
         {
             currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, Vector3.zero, moveBreak);
+            Debug.Log($"Current Move Velocity (breaking): {currentMoveVelocity}");
         }
 
         // Handle vertical movement (gravity and jump)
         if (IsGrounded() && verticalVelocity < 0)
         {
             verticalVelocity = -1f;
+            Debug.Log("Player is grounded, setting vertical velocity to -1.");
         }
 
-        if (inputReader.IsJumping && IsGrounded())
+        if (isJump && IsGrounded())
         {
             verticalVelocity += jumpAcceleration;
+            Debug.Log($"Jumping! Vertical Velocity after jump: {verticalVelocity}");
         }
         else
         {
             verticalVelocity += gravityValue * Time.deltaTime;
+            Debug.Log($"Gravity applied. Vertical Velocity: {verticalVelocity}");
         }
 
         // Combine horizontal and vertical movement
         Vector3 movement = currentMoveVelocity * Time.deltaTime;
         movement.y = verticalVelocity * Time.deltaTime;
 
+        // Log movement vector before applying
+        Debug.Log($"Movement vector: {movement}");
+
         playerController.Move(movement);
     }
+
 
     private void RotateTowardsCursor()
     {
@@ -105,6 +155,6 @@ public class PlayerMovement : NetworkBehaviour
 
     private bool IsGrounded()
     {
-        return playerController.isGrounded;
+        return playerController.Grounded;
     }
 }

@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.iOS;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using static Autodesk.Fbx.FbxTime;
+using static Unity.Collections.Unicode;
 
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -21,6 +22,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public Dictionary<string, GameObject> SessionDictionaryElement = new Dictionary<string, GameObject>();
 
     public SceneAsset gameplayScene;
+    public SceneAsset lobbyScene;
 
     public GameObject PlayerPrefab;
 
@@ -39,26 +41,43 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
     }
 
+    public static void ReturnToLobby()
+    {
+        NetworkController.runnerInstance.Despawn(runnerInstance.GetPlayerObject(runnerInstance.LocalPlayer));
+        NetworkController.runnerInstance.Shutdown(true, ShutdownReason.Ok);
+    }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        SceneManager.LoadScene(lobbyScene.name);
+    }
+
     public void CreateRandomSession()
     {
         int randomInt = UnityEngine.Random.Range(1000, 9999);
         string randomName = $"Room nr:{randomInt}";
 
-        runnerInstance.StartGame(new StartGameArgs()
+        try
         {
-            Scene = SceneRef.FromIndex(GetSceneIndex(gameplayScene.name)),
-            SessionName = randomName,
-            GameMode = GameMode.Shared
-        });
+            runnerInstance.StartGame(new StartGameArgs()
+            {
+                Scene = SceneRef.FromIndex(GetSceneIndex(gameplayScene.name)),
+                SessionName = randomName,
+                GameMode = GameMode.Shared,
+            });
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error starting game: {ex.Message}");
+        }
     }
 
-    public int GetSceneIndex(string sceneName)
+    public static int GetSceneIndex(string sceneName)
     {
         for(int i = 0; i< SceneManager.sceneCountInBuildSettings; i++)
         {
             string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
             string name = System.IO.Path.GetFileName(scenePath);
-            if(name == sceneName)
+            if(name == sceneName + ".unity")
                 return i;
 
         }
@@ -88,15 +107,36 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     private void CreateEntryUI(SessionInfo info)
     {
+        Debug.Log($"[CreateEntryUI] Start creating UI element for session: {info.Name}");
+
+        // Tworzenie nowego elementu UI
         GameObject newElement = Instantiate(SessionListEnktryPrefab, sessionListContentParent);
+        Debug.Log($"[CreateEntryUI] Instantiated new UI element for session: {info.Name}");
+
+        // Pobranie komponentu i zaktualizowanie wartości
         SessionLobbyElement lobbyElement = newElement.GetComponent<SessionLobbyElement>();
+        if (lobbyElement == null)
+        {
+            Debug.LogError($"[CreateEntryUI] Missing SessionLobbyElement component in instantiated prefab for session: {info.Name}");
+            return;
+        }
+
         SessionDictionaryElement.Add(info.Name, newElement);
+        Debug.Log($"[CreateEntryUI] Added session {info.Name} to the dictionary.");
 
         lobbyElement.roomName.text = info.Name;
+        Debug.Log($"[CreateEntryUI] Set room name to: {info.Name}");
+
         lobbyElement.playerCount.text = $"{info.PlayerCount}/{info.MaxPlayers}";
+        Debug.Log($"[CreateEntryUI] Set player count to: {info.PlayerCount}/{info.MaxPlayers}");
+
         lobbyElement.joinRoomBtn.interactable = info.IsOpen;
+        Debug.Log($"[CreateEntryUI] Set join button interactable to: {info.IsOpen}");
 
         newElement.SetActive(info.IsVisible);
+        Debug.Log($"[CreateEntryUI] Set element visibility to: {info.IsVisible}");
+
+        Debug.Log($"[CreateEntryUI] Finished creating UI element for session: {info.Name}");
     }
 
     private void UpdateEntryUI(SessionInfo info)
@@ -135,77 +175,73 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+
+    private void UnloadLobbyScene()
     {
-        if(player == runnerInstance.LocalPlayer)
+        // Pobierz aktywną scenę (scena lobby)
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        // Sprawdź, czy aktywna scena to scena lobby
+        if (activeScene.name == lobbyScene.name)
         {
-            SceneManager.LoadScene(gameplayScene.name);
-            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, Vector3.one);
-            runner.SetPlayerObject(player, playerNetworkObject); 
+            // Usuń scenę lobby
+            SceneManager.UnloadSceneAsync(lobbyScene.name);
         }
     }
-
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    {
+        UnloadLobbyScene();
+    }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log("Left");
     }
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
-    }
+        Debug.Log("OnConnectedToServer");
 
+    }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-    }
+        Debug.Log("OnConnectFailed");
 
+    }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
     }
-
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
     }
-
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
     }
-
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
     }
-
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
     }
-
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
     }
-
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
     }
-
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
     }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
     }
-
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
     {
     }
-
     public void OnSceneLoadDone(NetworkRunner runner)
     {
     }
     public void OnSceneLoadStart(NetworkRunner runner)
     {
     }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-    {
-    }
-
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
     }

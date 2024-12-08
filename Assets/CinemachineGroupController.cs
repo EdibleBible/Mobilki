@@ -19,17 +19,11 @@ public class CinemachineGroupController : MonoBehaviour
             if (networkObject == null)
                 return;
 
-            // Sprawdzamy, czy to obiekt gracza z autoryzacją wejścia
-            if (networkObject.HasInputAuthority)
-            {
-                targetGroup.AddMember(cameraLook, 1, 10); // Wyższy priorytet dla lokalnego gracza
-            }
-            else
-            {
-                targetGroup.AddMember(cameraLook, 1, 1); // Inni gracze
-            }
+            // Sprawdzamy, czy właściciel obiektu to lokalny gracz
+
         }
     }
+
 
     public bool DoesGroupContainTarget(Transform target)
     {

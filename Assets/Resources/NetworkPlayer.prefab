@@ -12,6 +12,10 @@ GameObject:
   - component: {fileID: 3244510303707465446}
   - component: {fileID: 8557660512588389208}
   - component: {fileID: 4872977068674845492}
+  - component: {fileID: 1175972139617760351}
+  - component: {fileID: 4399031618797972222}
+  - component: {fileID: 9154994786531953898}
+  - component: {fileID: 4907349376099265731}
   m_Layer: 3
   m_Name: NetworkPlayer
   m_TagString: Untagged
@@ -103,7 +107,78 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 1175972139617760351}
+  - {fileID: 4399031618797972222}
+  - {fileID: 9154994786531953898}
+  - {fileID: 4907349376099265731}
+--- !u!114 &1175972139617760351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b08e950d628684691f900979980e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4399031618797972222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b84787c01f544c6498ef79593d239247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  e_OnPlayerSpawnEvent: {fileID: 11400000, guid: f50189b35d321644bbbb667fbcbbc29b, type: 2}
+  e_OnPlayerDespawnEvent: {fileID: 11400000, guid: e06110dc9d08c8648a809344b240fd7f, type: 2}
+--- !u!114 &9154994786531953898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378411a89480da345945c2f888327a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -20
+  jumpImpulse: 8
+  acceleration: 10
+  braking: 10
+  maxSpeed: 2
+  rotationSpeed: 15
+--- !u!114 &4907349376099265731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297139517193573902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395b8ab62ab3d2b4ca29c7e60a5c1f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 9154994786531953898}
+  mainCamera: {fileID: 0}
+  inputReader: {fileID: 0}
+  moveSpeed: 5
+  moveAcceleration: 0.1
+  moveBreak: 0.1
+  jumpAcceleration: 0.2
+  gravityValue: -9.81
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3606922288392187730
 GameObject:
   m_ObjectHideFlags: 0
