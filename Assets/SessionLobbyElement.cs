@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class SessionLobbyElement : MonoBehaviour
 {
-    public TextMeshProUGUI roomName;
+    /*public TextMeshProUGUI roomName;
     public TextMeshProUGUI playerCount;
     public UnityEngine.UI.Button joinRoomBtn;
     public SceneAsset gameplayScene;
@@ -21,5 +21,5 @@ public class SessionLobbyElement : MonoBehaviour
             SessionName = roomName.text,
             GameMode = GameMode.Shared,
         });
-    }
+    }*/
 }

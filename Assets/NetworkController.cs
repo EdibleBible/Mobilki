@@ -2,19 +2,14 @@
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using static Autodesk.Fbx.FbxTime;
-using static Unity.Collections.Unicode;
 
-public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
+public class NetworkController : MonoBehaviour/*, INetworkRunnerCallbacks*/
 {
 
-    public static NetworkRunner runnerInstance;
+    /*public static NetworkRunner runnerInstance;
     [SerializeField] private string lobbyName = "Default Name";
 
     [SerializeField] private Transform sessionListContentParent;
@@ -25,6 +20,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public SceneAsset lobbyScene;
 
     public GameObject PlayerPrefab;
+
+    [SerializeField] private NetworkPrefabRef playerPrefab;
 
     private void Awake()
     {
@@ -244,5 +241,5 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-    }
+    }*/
 }

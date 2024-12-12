@@ -1,11 +1,7 @@
 fileFormatVersion: 2
-guid: 5f9faa3ffc014c941995a81138385040
-MonoImporter:
+guid: f981197eba3e7fb499f1baa569df87f1
+DefaultImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +10,5 @@ AssetOrigin:
   productId: 267958
   packageName: Photon Fusion
   packageVersion: 2.0.3
-  assetPath: Assets/Photon/Fusion/CodeGen/Fusion.CodeGen.User.cs
+  assetPath: Assets/Photon/FusionDemos/Photon-Fusion-Intro-Sample-2.0.3-Stable-858.unitypackage
   uploadId: 691755

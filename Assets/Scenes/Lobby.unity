@@ -516,6 +516,8 @@ MonoBehaviour:
   gameplayScene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
   lobbyScene: {fileID: 102900000, guid: f2119fae3829f3e43a42ae51fa377416, type: 3}
   PlayerPrefab: {fileID: 2297139517193573902, guid: b26dec167f3481140b9131d1d6568fa3, type: 3}
+  playerPrefab:
+    RawGuidValue: 00000000000000000000000000000000
 --- !u!4 &347005920
 Transform:
   m_ObjectHideFlags: 0
@@ -741,7 +743,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
