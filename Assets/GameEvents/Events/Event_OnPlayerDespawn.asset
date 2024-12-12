@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d924606422a930c45a07e725700cb2ef, type: 3}
-  m_Name: e_OnPlayerHitted
+  m_Name: Event_OnPlayerDespawn
   m_EditorClassIdentifier: 
   listeners: []

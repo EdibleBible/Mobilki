@@ -2,24 +2,22 @@ using Fusion;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class SessionLobbyElement : MonoBehaviour
 {
-    /*public TextMeshProUGUI roomName;
+    public TextMeshProUGUI roomName;
     public TextMeshProUGUI playerCount;
     public UnityEngine.UI.Button joinRoomBtn;
-    public SceneAsset gameplayScene;
+    public string gameplayScene = "Game";
 
 
     public void JoinRoom()
     {
         NetworkController.runnerInstance.StartGame(new StartGameArgs()
         {
-            Scene = SceneRef.FromIndex(NetworkController.GetSceneIndex(gameplayScene.name)),
+            Scene = SceneRef.FromIndex(NetworkController.GetSceneIndex(gameplayScene)),
             SessionName = roomName.text,
             GameMode = GameMode.Shared,
         });
-    }*/
+    }
 }

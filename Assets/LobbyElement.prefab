@@ -807,7 +807,7 @@ MonoBehaviour:
   roomName: {fileID: 5896788205075091297}
   playerCount: {fileID: 239481389538943804}
   joinRoomBtn: {fileID: 7247666866490553108}
-  gameplayScene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  gameplayScene: Game
 --- !u!1 &4889937038379048130
 GameObject:
   m_ObjectHideFlags: 0

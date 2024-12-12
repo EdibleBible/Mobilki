@@ -510,14 +510,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45138f8e77556994f94b27c2c0ac9463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyName: DefaultName
+  lobbyName: Default Name
   sessionListContentParent: {fileID: 333360023}
   SessionListEnktryPrefab: {fileID: 4599995358906894963, guid: eee58d66c5b81de469278bd1282475ff, type: 3}
-  gameplayScene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
-  lobbyScene: {fileID: 102900000, guid: f2119fae3829f3e43a42ae51fa377416, type: 3}
-  PlayerPrefab: {fileID: 2297139517193573902, guid: b26dec167f3481140b9131d1d6568fa3, type: 3}
-  playerPrefab:
-    RawGuidValue: 00000000000000000000000000000000
+  gameplayScene: Game
+  lobbyScene: Lobby
+  playerPrefab: {fileID: 5086933352383870912, guid: f53ed3598c7fe0346a177eb2f5c9702e, type: 3}
+  Event_OnPlayerSpawn: {fileID: 11400000, guid: 170620e2adaa3664488fd138bb3013f2, type: 2}
+  Event_OnPlayerDespawn: {fileID: 11400000, guid: ddde2dda91ceb62499c55aa1683ce209, type: 2}
 --- !u!4 &347005920
 Transform:
   m_ObjectHideFlags: 0
