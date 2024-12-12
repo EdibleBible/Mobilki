@@ -119,6 +119,79 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &946857612
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 325.6227
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 325.6227
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 325.6227
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.6771
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.0146
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.5655
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: be702ad62e9f736418a524b8e3a4ed5b, type: 2}
+    - target: {fileID: 919132149155446097, guid: 63335132c965a194d938172e79a61918, type: 3}
+      propertyPath: m_Name
+      value: snow_dunes
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 63335132c965a194d938172e79a61918, type: 3}
 --- !u!1 &1553397010
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +416,7 @@ Transform:
   m_GameObject: {fileID: 1757428144}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.61, z: 0}
+  m_LocalPosition: {x: 5.19, y: 1.8, z: 1}
   m_LocalScale: {x: 4.264062, y: 4.264062, z: 4.264062}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -570,3 +643,4 @@ SceneRoots:
   - {fileID: 1553397012}
   - {fileID: 1757428148}
   - {fileID: 2105973003}
+  - {fileID: 946857612}
