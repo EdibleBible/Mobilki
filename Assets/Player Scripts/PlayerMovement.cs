@@ -37,11 +37,15 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (_inputReader == null) return;
 
-        RotateTowardsCursor();
         ApplyMovement();
+        RotateTowardsCursor();
+
     }
 
-
+    private void Update()
+    {
+        FixedUpdateNetwork();
+    }
     private void ApplyMovement()
     {
         // Get movement input from PlayerInputReader
@@ -57,26 +61,29 @@ public class PlayerMovement : NetworkBehaviour
             _currentMoveVelocity = Vector3.Lerp(_currentMoveVelocity, Vector3.zero, MoveBreak);
         }
 
+        Debug.Log(inputDirection.magnitude);
+
         // Apply gravity
-        if (_controller.isGrounded && _velocity.y < 0)
+/*        if (_controller.isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f; // Keep grounded
         }
         else
         {
-            _velocity.y += GravityValue * Time.deltaTime;
+            _velocity.y += GravityValue * NetworkController.runnerInstance.DeltaTime;
         }
 
         // Apply jump force if triggered by PlayerInputReader
         if (_inputReader.IsJumping && _controller.isGrounded)
         {
             _velocity.y = JumpForce;
-        }
+        }*/
 
         // Combine horizontal and vertical velocities
-        Vector3 movement = _currentMoveVelocity * Time.deltaTime;
-        movement.y += _velocity.y * Time.deltaTime;
+        Vector3 movement = _currentMoveVelocity * NetworkController.runnerInstance.DeltaTime;
+        movement.y += _velocity.y * NetworkController.runnerInstance.DeltaTime;
 
+        Debug.Log(movement.magnitude);
 
         _controller.Move(movement);
 
@@ -84,39 +91,32 @@ public class PlayerMovement : NetworkBehaviour
 
     private void RotateTowardsCursor()
     {
-        if (_mainCamera == null)
+
+        PhysicsScene physicsScene = Runner.GetPhysicsScene();
+        if (physicsScene.IsValid())
         {
-            _mainCamera = FindAnyObjectByType<Camera>();
-            Debug.LogError("Main camera not found. Unable to rotate towards cursor.");
-            return;
-        }
 
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        Debug.Log($"Raycast from cursor: Origin = {ray.origin}, Direction = {ray.direction}");
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, GroundLayer))
-        {
-            Debug.DrawRay(ray.origin, ray.direction * hit.distance);
-            Vector3 direction = hit.point - transform.position;
-            Debug.Log($"Raycast hit: {hit.point}, Direction to cursor: {direction}");
-
-            direction.y = 0; // Ignore vertical component
-
-            if (direction.magnitude > 0.1f)
+            if (_mainCamera == null)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 0.1f);
-                Debug.Log($"Rotating towards cursor: Target Rotation = {targetRotation}, Current Rotation = {transform.rotation}");
+                _mainCamera = FindAnyObjectByType<Camera>();
+                return;
             }
-            else
+
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (physicsScene.Raycast(ray.origin, ray.direction, out RaycastHit hit, Mathf.Infinity, GroundLayer))
             {
-                Debug.Log("Direction to cursor too small to rotate.");
+                Debug.DrawRay(ray.origin, ray.direction * hit.distance);
+                Vector3 direction = hit.point - transform.position;
+
+                direction.y = 0; // Ignore vertical component
+
+                if (direction.magnitude > 0.1f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 0.1f);
+                }
             }
-        }
-        else
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 10000f);
-            Debug.LogWarning("Cursor raycast did not hit any valid object.");
+
         }
     }
 }
