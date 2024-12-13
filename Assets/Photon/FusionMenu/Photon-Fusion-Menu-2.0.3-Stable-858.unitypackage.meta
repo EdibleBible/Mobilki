@@ -5,6 +5,7 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+<<<<<<< Updated upstream
 AssetOrigin:
   serializedVersion: 1
   productId: 267958
@@ -12,3 +13,5 @@ AssetOrigin:
   packageVersion: 2.0.3
   assetPath: Assets/Photon/FusionMenu/Photon-Fusion-Menu-2.0.3-Stable-858.unitypackage
   uploadId: 691755
+=======
+>>>>>>> Stashed changes

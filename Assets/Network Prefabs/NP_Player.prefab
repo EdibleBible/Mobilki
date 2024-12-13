@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2951449311060487967}
   - component: {fileID: 1596331491813206137}
   - component: {fileID: 732066647501574452}
+  - component: {fileID: 2843785999376116807}
   m_Layer: 0
   m_Name: NP_Player
   m_TagString: Untagged
@@ -159,6 +160,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 1596331491813206137}
   - {fileID: 732066647501574452}
+  - {fileID: 2843785999376116807}
 --- !u!114 &1596331491813206137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,9 +189,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395b8ab62ab3d2b4ca29c7e60a5c1f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpeed: 2
+  PlayerSpeed: 5
+  MoveAcceleration: 2
+  MoveBreak: 0.5
   JumpForce: 5
   GravityValue: -9.81
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &2843785999376116807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086933352383870912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6296a654dfd2a294991367e0177c99d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6841368635392097102
 GameObject:
   m_ObjectHideFlags: 0
