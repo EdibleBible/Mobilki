@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
-public class PlayerPickUpObject : MonoBehaviour
+public class PlayerPickUpObject : MonoBehaviourPun
 {
     [Header("References")]
-    [SerializeField] private GameObject pickupedObject;
+    public GameObject pickupedObject;
     [SerializeField] private PlayerInputReader inputReader;
 
     [Header("Values")]
@@ -39,6 +40,8 @@ public class PlayerPickUpObject : MonoBehaviour
         if (!Physics.BoxCast(pickupTransform.position, Vector3.one * 0.5f, pickupTransform.forward, out RaycastHit hitObj, pickupTransform.rotation, pickupRange, pickupLayer))
             return;
 
+        if(photonView.IsMine)
+
         if (pickupedObject == null)
         {
             if (!hitObj.collider.TryGetComponent(out IPickable pickable))
@@ -47,7 +50,7 @@ public class PlayerPickUpObject : MonoBehaviour
             if (pickable.IsDisable)
                 return;
 
-            pickupedObject = pickable.PickUpItem(holdItemTransform);
+            pickupedObject = pickable.PickUpItem(holdItemTransform, holdItemTransform.GetComponent<PhotonView>().ViewID);
         }
         else
         {

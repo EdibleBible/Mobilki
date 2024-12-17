@@ -41,6 +41,11 @@ MonoBehaviour:
   - RespawnSpaceship
   - RPC_AddPlayerToGlobalList
   - RPC_ClearPlayers
+  - AssignParent
+  - DropObject
+  - ThrowItemRPC
+  - OnHitRPC
+  - ApplyForceToModel
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

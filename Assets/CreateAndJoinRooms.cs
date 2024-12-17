@@ -6,6 +6,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_InputField createInput; // Pole do wpisania nazwy pokoju do stworzenia
     [SerializeField] private TMP_InputField joinInput;   // Pole do wpisania nazwy pokoju do dołączenia
+    [SerializeField] private TMP_InputField playerNameInput; // Pole do wpisania nazwy gracza
 
     private void Start()
     {
@@ -23,6 +24,9 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
             return;
         }
 
+        // Ustawienie nazwy gracza przed stworzeniem pokoju
+        SetPlayerName();
+
         Debug.Log($"Tworzenie pokoju: {createInput.text}");
         PhotonNetwork.CreateRoom(createInput.text, new Photon.Realtime.RoomOptions { MaxPlayers = 4 });
     }
@@ -35,8 +39,23 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
             return;
         }
 
+        // Ustawienie nazwy gracza przed dołączeniem do pokoju
+        SetPlayerName();
+
         Debug.Log($"Dołączanie do pokoju: {joinInput.text}");
         PhotonNetwork.JoinRoom(joinInput.text);
+    }
+
+    public void SetPlayerName()
+    {
+        if (string.IsNullOrWhiteSpace(playerNameInput.text))
+        {
+            Debug.LogError("Nazwa gracza nie może być pusta!");
+            return;
+        }
+
+        PhotonNetwork.NickName = playerNameInput.text;
+        Debug.Log($"Nazwa gracza ustawiona na: {PhotonNetwork.NickName}");
     }
 
     public override void OnJoinedRoom()

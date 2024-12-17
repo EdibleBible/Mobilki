@@ -11,7 +11,7 @@ public class CinemachineGroupController : MonoBehaviour
         if (sender is PlayerSpawn spawn && data is GameObject obj)
         {
             var cameraLook = obj.transform.Find("CameraLook");
-            targetGroup.AddMember(cameraLook, 1, 10);
+            targetGroup.AddMember(cameraLook, 5, 10);
 
         }
     }

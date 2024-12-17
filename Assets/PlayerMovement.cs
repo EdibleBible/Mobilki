@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPun
 {
     [Header("Reference")]
     [SerializeField] private CharacterController playerController;
@@ -31,11 +32,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!photonView.IsMine)
+        {
+            // Nie wykonuj ruchu dla obiektów innych graczy
+            return;
+        }
         ApplyMovement();
     }
 
     private void LateUpdate()
     {
+        if (!photonView.IsMine)
+        {
+            // Nie wykonuj ruchu dla obiektów innych graczy
+            return;
+        }
         RotateTowardsCursor(); 
     }
 
