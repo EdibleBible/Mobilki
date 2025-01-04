@@ -36,7 +36,7 @@ public class GameTimer : MonoBehaviourPunCallbacks
         if (!gameEnded)
         {
             double elapsedTime = PhotonNetwork.Time - StartTime;
-
+            Debug.Log(elapsedTime);
             if (elapsedTime >= GameDuration)
             {
                 EndGame(); // Zakończenie gry
@@ -70,12 +70,60 @@ public class GameTimer : MonoBehaviourPunCallbacks
         hostPlayerMenu.SetActive(true);
     }
 
+    public void ResetGameTimer()
+    {
+        photonView.RPC("CloseMenu", RpcTarget.All);
+        Debug.Log("RPC Close Menu");
+        
+        photonView.RPC("ResetTime", RpcTarget.All);
+        Debug.Log("RPC Reset Time");
+        
+        photonView.RPC("ResetTimeUI",RpcTarget.All);
+        Debug.Log("RPC Reset TimeUI");
+        
+        Debug.Log("Host Menu: Option to Reset or Exit");
+    }
+
     [PunRPC]
     private void DisplayWaitMessage()
     {
-        // Tutaj wyświetl tekst "Wait For Host Decision" dla wszystkich graczy
-        Debug.Log("Wait For Host Decision");
-        // Możesz wyświetlić UI z tym komunikatem
         normalPlayerMenu.SetActive(true);
+    }
+    
+    [PunRPC]
+    private void CloseMenu()
+    {
+        if (hostPlayerMenu != null)
+        {
+            Debug.Log("Host Close Menu");
+            hostPlayerMenu.SetActive(false);
+        }
+
+        if (normalPlayerMenu != null)
+        {
+            Debug.Log("Normal Close Menu");
+            normalPlayerMenu.SetActive(false);
+        }
+    }
+    
+    [PunRPC]
+    private void ResetTime()
+    {
+        gameEnded = false;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartTime = PhotonNetwork.Time; // Zapisujemy czas początkowy gry
+            // Ustawiamy StartTime w CustomProperties pokoju tylko raz, na początku
+            Hashtable roomProperties = new Hashtable { { "StartTime", StartTime } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+        }
+        else
+        {
+            // Gracze dołączający odczytują StartTime z CustomProperties
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("StartTime", out object startTimeObj))
+            {
+                StartTime = (double)startTimeObj;
+            }
+        }
     }
 }

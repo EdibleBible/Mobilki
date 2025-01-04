@@ -61,4 +61,32 @@ public class TimerUI : MonoBehaviourPunCallbacks
     {
         startTime = syncStartTime; // Synchronizujemy czas u wszystkich graczy
     }
+
+    [PunRPC]
+    public void ResetTimeUI()
+    {
+        photonView = GetComponent<PhotonView>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Host ustawia czas początkowy, tylko raz
+            startTime = PhotonNetwork.Time;
+            Hashtable roomProperties = new Hashtable { { "StartTime", startTime } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+        }
+        else
+        {
+            // Czekamy, aż Host przekaże nam czas
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("StartTime", out object startTimeObj))
+            {
+                startTime = (double)startTimeObj;
+            }
+            else
+            {
+                photonView.RPC("SyncStartTime", RpcTarget.AllBuffered, startTime);
+            }
+        }
+
+        gameDuration = FindObjectOfType<GameTimer>().GameDuration;
+    }
 }

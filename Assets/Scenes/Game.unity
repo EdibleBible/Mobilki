@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc111d94a430824caa4acabd77a2824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameDuration: 20
+  GameDuration: 10
   hostPlayerMenu: {fileID: 860298078}
   normalPlayerMenu: {fileID: 867403296}
 --- !u!114 &838569335
@@ -1747,6 +1747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8baa87fdb79049144805e6eddd897ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: {fileID: 838569334}
 --- !u!114 &860298081
 MonoBehaviour:
   m_ObjectHideFlags: 0
