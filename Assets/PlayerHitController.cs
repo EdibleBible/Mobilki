@@ -69,8 +69,10 @@ public class PlayerHitController : MonoBehaviourPun
         }
     }
 
-    public void OnHit(Rigidbody throwedItemRb, int points, Photon.Realtime.Player hitPlayer)
+    public void OnHit(Rigidbody throwedItemRb, int points, Photon.Realtime.Player hitPlayer,bool hasTriggered)
     {
+        if(hasTriggered)
+            return;
         // Wywołanie RPC dla synchronizacji tylko siły na modelu
         if (!hasReceivedHit)
         {

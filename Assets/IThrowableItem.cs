@@ -15,6 +15,6 @@ public interface IPickable
 {
     public bool IsDisable { get; set; }
     public GameObject PickUpItem(Transform holdParent, int phothonViewId);
-    public void DropItem(ref GameObject ItemInPlayerHand);
+    public void DropItem(ref GameObject ItemInPlayerHand, bool isThrow = false);
     public void HighLight();
 }

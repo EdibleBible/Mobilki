@@ -7,6 +7,7 @@ public class HostMenuController : MonoBehaviourPunCallbacks
 {
     PhotonView photonView;
     [SerializeField] private GameTimer timer;
+    [SerializeField] private PlayerPropertiesManager playerPropertiesManager;
 
     // Funkcja do opuszczenia gry
     public void LeaveGame()
@@ -24,9 +25,11 @@ public class HostMenuController : MonoBehaviourPunCallbacks
         // Tylko host może resetować grę
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Reset Game");
             timer.ResetGameTimer();
+            
+            playerPropertiesManager.ResetGamePoints();
         }
+        
     }
 
 }

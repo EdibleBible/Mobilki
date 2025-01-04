@@ -22,6 +22,7 @@ public class PlayerPropertiesManager : MonoBehaviourPunCallbacks
         {
             return value;
         }
+
         return null; // Zwraca null, jeśli klucz nie istnieje
     }
 
@@ -44,7 +45,6 @@ public class PlayerPropertiesManager : MonoBehaviourPunCallbacks
         if (changedProps.ContainsKey("Score"))
         {
             int newScore = (int)changedProps["Score"];
-            Debug.Log($"{targetPlayer.NickName} ma teraz {newScore} punktów!");
         }
     }
 
@@ -62,12 +62,25 @@ public class PlayerPropertiesManager : MonoBehaviourPunCallbacks
 
             // Ustaw nowy wynik w Custom Properties
             ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable
-        {
-            { "Score", newScore }
-        };
+            {
+                { "Score", newScore }
+            };
             PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
 
-            Debug.Log($"Dodano punkty! Nowy wynik lokalnego gracza: {newScore}");
+        }
+    }
+
+
+    public void ResetGamePoints()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable
+            {
+                { "Score", 0 }
+            };
+            player.SetCustomProperties(customProps);
+
         }
     }
 }

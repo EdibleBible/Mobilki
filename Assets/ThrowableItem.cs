@@ -1,5 +1,7 @@
-﻿using Photon.Pun;
+﻿using System.Linq;
+using Photon.Pun;
 using System.Threading.Tasks;
+using Photon.Realtime;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -15,8 +17,11 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
     private bool hasHit = false;
     private bool isHeld = false;
     private float flightTime = 0f; // Licznik czasu lotu
+    public bool HasTriggered = false;
+    
+    public Player ThrowObjectParent;
 
-    public void DropItem(ref GameObject ItemInPlayerHand)
+    public void DropItem(ref GameObject ItemInPlayerHand, bool isThrow = false)
     {
         IsDisable = false;
         itemRb.useGravity = true;
@@ -30,12 +35,19 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
             int itemViewID = itemPhotonView.ViewID;
 
             // Wywołaj RPC, przekazując ViewID
-            photonView.RPC("DropObject", RpcTarget.AllBuffered, itemViewID);
+            photonView.RPC("DropObject", RpcTarget.AllBuffered, itemViewID, isThrow);
+
+            if (!isThrow)
+            {
+                Debug.Log("Drop Item");
+                ThrowObjectParent = null;
+            }
         }
         else
         {
             Debug.LogError("Obiekt nie posiada komponentu PhotonView.");
         }
+
         ItemInPlayerHand = null;
     }
 
@@ -43,7 +55,9 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
     public void AssignParent(int playerID)
     {
         GameObject player = PhotonNetwork.GetPhotonView(playerID).gameObject;
-        if (player != null)
+        Player p = PhotonNetwork.GetPhotonView(playerID).Owner;
+
+        if (player != null && p != null)
         {
             transform.SetParent(player.transform); // Obiekt staje się dzieckiem gracza
             IsDisable = true;
@@ -54,11 +68,17 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
             itemRb.isKinematic = true;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+
+            ThrowObjectParent = p;
+        }
+        else
+        {
+            Debug.Log("Gameobject or player is NULL");
         }
     }
 
     [PunRPC]
-    public void DropObject(int itemViewID)
+    public void DropObject(int itemViewID, bool isThrow)
     {
         PhotonView itemPhotonView = PhotonView.Find(itemViewID);
         if (itemPhotonView != null)
@@ -66,6 +86,13 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
             GameObject itemInPlayerHand = itemPhotonView.gameObject;
 
             itemInPlayerHand.transform.SetParent(null);
+
+            if (!isThrow)
+            {
+                Debug.Log("Drop Item");
+                ThrowObjectParent = null;
+            }
+
 
             Rigidbody itemRb = itemInPlayerHand.GetComponent<Rigidbody>();
             if (itemRb != null)
@@ -94,6 +121,7 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
         {
             return null;
         }
+
         IsDisable = true;
         CanHit = false;
         isHeld = true;
@@ -103,6 +131,8 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
 
         transform.SetParent(holdParent);
         photonView.RPC("AssignParent", RpcTarget.AllBuffered, PlayerPhothonViewId);
+        ThrowObjectParent = PhotonNetwork.GetPhotonView(PlayerPhothonViewId).Owner;
+        Debug.Log($"ThrowObjectParent ustawiony na {PhotonNetwork.GetPhotonView(PlayerPhothonViewId).Owner.NickName}");
 
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
@@ -112,7 +142,7 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
 
     public void ThrowItemWithDrop(ref GameObject ItemInPlayerHand, float power, Vector3 direction)
     {
-        DropItem(ref ItemInPlayerHand);
+        DropItem(ref ItemInPlayerHand, true);
         ThrowItem(power, direction);
     }
 
@@ -154,6 +184,7 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
             // Jeśli obiekt przestał się poruszać, resetujemy stany
             IsDisable = false;
             CanHit = false;
+            ThrowObjectParent = null;
         }
     }
 
@@ -172,7 +203,14 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasHit && other.gameObject.TryGetComponent(out PlayerHitController hitControler) && other.gameObject.TryGetComponent(out PlayerPickUpObject pickUp))
+        if (ThrowObjectParent == null)
+        {
+            Debug.Log("ThrowObjectParent == null");
+            return;
+        }
+
+        if (!HasTriggered && other.gameObject.TryGetComponent(out PlayerHitController hitControler) &&
+            other.gameObject.TryGetComponent(out PlayerPickUpObject pickUp))
         {
             if (CanHit)
             {
@@ -180,12 +218,18 @@ public class ThrowableItem : MonoBehaviourPun, IThrowableItem, IPickable
                 if (photonView != null)
                 {
                     Photon.Realtime.Player hitPlayer = photonView.Owner;
-                    hitControler.OnHit(itemRb, 10, hitPlayer);
+                    hitControler.OnHit(itemRb, 10, ThrowObjectParent,HasTriggered);
 
-                    hasHit = true;
+                    HasTriggered = true;  // Zmieniamy flagę na true, aby nie wywoływać tego ponownie
                     OnItemHit();
                 }
             }
         }
+    }
+
+// Dodatkowa funkcja resetująca flagę (np. po jakimś czasie lub warunku)
+    public void ResetTriggerFlag()
+    {
+        HasTriggered = false;  // Resetujemy flagę, aby zdarzenie mogło się ponownie wykonać
     }
 }

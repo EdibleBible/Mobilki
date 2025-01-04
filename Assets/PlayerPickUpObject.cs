@@ -63,7 +63,6 @@ public class PlayerPickUpObject : MonoBehaviourPun
 
     private void StartCharge()
     {
-        Debug.Log("Start Charging");
         isCharging = true;
         currentChargeTime = 0f;
     }
@@ -71,12 +70,10 @@ public class PlayerPickUpObject : MonoBehaviourPun
     private void StopCharge()
     {
         isCharging = false;
-        Debug.Log("Stop Charging with Power wthoutItemInHands");
         if (pickupedObject == null)
             return;
 
         float chargePower = GetChargePower();
-        Debug.Log($"Stop Charging with Power: {chargePower}");
         if (pickupedObject.TryGetComponent<IThrowableItem>(out var item))
         {
             item.ThrowItemWithDrop(ref pickupedObject, throwPower * chargePower, pickupTransform.forward);
@@ -107,7 +104,6 @@ public class PlayerPickUpObject : MonoBehaviourPun
 
             // Opcjonalnie: Wyświetl aktualną moc w debugu
             float chargePower = GetChargePower();
-            Debug.Log($"Charging... Power: {chargePower}");
         }
     }
 
