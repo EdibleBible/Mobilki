@@ -46,6 +46,11 @@ MonoBehaviour:
   - ThrowItemRPC
   - OnHitRPC
   - ApplyForceToModel
+  - SetStartTime
+  - SyncStartTime
+  - DisplayWaitMessage
+  - ResetGameRPC
+  - DestroyObjectRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

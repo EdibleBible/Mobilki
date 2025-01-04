@@ -7,7 +7,6 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField createInput; // Pole do wpisania nazwy pokoju do stworzenia
     [SerializeField] private TMP_InputField joinInput;   // Pole do wpisania nazwy pokoju do dołączenia
     [SerializeField] private TMP_InputField playerNameInput; // Pole do wpisania nazwy gracza
-
     private void Start()
     {
         if (!PhotonNetwork.IsConnected)
