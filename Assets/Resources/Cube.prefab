@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemRb: {fileID: 5596435064555840732}
+  HasTriggered: 0
 --- !u!114 &6062231112023655311
 MonoBehaviour:
   m_ObjectHideFlags: 0

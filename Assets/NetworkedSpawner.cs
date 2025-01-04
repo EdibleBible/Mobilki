@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
 public class NetworkedSpawner : MonoBehaviour
 {
     [Header("Spawner Settings")]
-    public GameObject prefabToSpawn; // Prefab do spawnowania (musi być zarejestrowany w Photon)
+    public List<GameObject> prefabToSpawn; // Prefab do spawnowania (musi być zarejestrowany w Photon)
     public LayerMask pickableLayer;  // Warstwa dla obiektów Pickable
     public int maxPickableObjects = 10; // Maksymalna liczba obiektów Pickable
     public float spawnCooldown = 5f;    // Czas pomiędzy próbami spawnowania
@@ -51,8 +52,10 @@ public class NetworkedSpawner : MonoBehaviour
 
     private void SpawnObject()
     {
+        int randomIndex = Random.Range(0, prefabToSpawn.Count);
+        var randomPrefab = prefabToSpawn[randomIndex];
         // PhotonNetwork.Instantiate synchronizuje prefab w całej sieci
-        PhotonNetwork.Instantiate(prefabToSpawn.name, SpawnLocation.position, Quaternion.identity);
+        PhotonNetwork.Instantiate(randomPrefab.name, SpawnLocation.position, Quaternion.identity);
         Debug.Log("Obiekt został zespawnowany w sieci!");
     }
 

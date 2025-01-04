@@ -122,12 +122,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1ccd8d6ab9f4e4690f239bcbe40e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToSpawn: {fileID: 7541662230150199008, guid: c35545b8341625044927aa57217283ea, type: 3}
+  prefabToSpawn:
+  - {fileID: 7541662230150199008, guid: c35545b8341625044927aa57217283ea, type: 3}
   pickableLayer:
     serializedVersion: 2
     m_Bits: 0
   maxPickableObjects: 10
   spawnCooldown: 5
+  SpawnLocation: {fileID: 5418484931597325288}
 --- !u!1 &4151694564841655811
 GameObject:
   m_ObjectHideFlags: 0
