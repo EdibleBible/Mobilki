@@ -8,7 +8,7 @@ public class HostMenuController : MonoBehaviourPunCallbacks
     PhotonView photonView;
     [SerializeField] private GameTimer timer;
     [SerializeField] private PlayerPropertiesManager playerPropertiesManager;
-    [SerializeField] private PlayerPositionReset playerPositionReset;
+    [SerializeField] private PlayerPositionManager playerPositionReset;
 
     // Funkcja do opuszczenia gry
     public void LeaveGame()
@@ -30,7 +30,9 @@ public class HostMenuController : MonoBehaviourPunCallbacks
             
             playerPropertiesManager.ResetGamePoints();
             
-            playerPositionReset.ResetPlayerPosition();
+            playerPositionReset.RandomizePlayerPositions();
+            
+            playerPositionReset.RemoveObjectsOfTypeOnLayer();
         }
         
     }

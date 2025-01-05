@@ -1,10 +1,12 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using Random = UnityEngine.Random;
 
 public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
@@ -12,19 +14,79 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject playerUIItemPrefab; // Prefab dla UI gracza
     [SerializeField] private Transform playerListParent;  // Rodzic dla listy graczy w UI
     [SerializeField] private PlayerPropertiesManager playerPropertiesManager;
+    [SerializeField] private GameObject normalMenu;
+    [SerializeField] private GameObject hostMenu;
+    [SerializeField] private GameObject startGameButton;
+    [SerializeField] private GameObject resetGameButton;
+    [SerializeField] private GameTimer gameTimer;
+    [SerializeField] private TextMeshProUGUI playerCountText; // Tekst wyświetlający liczbę graczy
     private List<GameObject> globalPlayerList = new List<GameObject>();
     
     private Dictionary<string, GameObject> playerItems = new Dictionary<string, GameObject>();
 
     private void Start()
     {
-        if (PhotonNetwork.IsConnectedAndReady)
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            FirstPlayerSpawn();
-            UpdatePlayerListUI();
+            hostMenu.SetActive(true);
+            startGameButton.SetActive(true);
+            resetGameButton.SetActive(false);
+            UpdatePlayerCountUI();
+        }
+        else
+        {
+            normalMenu.SetActive(true);
         }
     }
+    
+    private void UpdatePlayerCountUI()
+    {
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            int currentPlayers = PhotonNetwork.CurrentRoom.PlayerCount; // Liczba aktualnych graczy
+            int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;     // Maksymalna liczba graczy
 
+            playerCountText.text = $"{currentPlayers}/{maxPlayers} Players in Lobby";
+        }
+        else
+        {
+            playerCountText.text = "0/0 Players in Lobby";
+        }
+    }
+    
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        Debug.Log($"Player {newPlayer.NickName} joined the room.");
+        UpdatePlayerCountUI();
+    }
+    
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        Debug.Log($"Player {otherPlayer.NickName} left the room.");
+        UpdatePlayerCountUI();
+    }
+
+    public void StartGame()
+    {
+        // Upewnij się, że tylko host może uruchomić grę
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogError("Tylko host może uruchomić grę!");
+            return;
+        }
+
+        Debug.Log("Gra została uruchomiona przez hosta!");
+
+        // Wywołanie RPC na wszystkich klientach, aby każdy gracz zespawnował swojego gracza
+        startGameButton.SetActive(false);
+        resetGameButton.SetActive(true);
+        photonView.RPC("FirstPlayerSpawn", RpcTarget.All);
+        gameTimer.StartGame();
+    }
+
+    [PunRPC]
     public void FirstPlayerSpawn()
     {
         if (playerPrefab == null)
@@ -33,6 +95,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
+        // Losowe miejsce startowe dla gracza
         Vector3 spawnPosition = GetRandomSpawnPosition();
         GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
 
@@ -46,15 +109,16 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         PhotonView photonView = player.GetComponent<PhotonView>();
         if (photonView != null)
         {
-            // Generowanie unikalnego UserId (np. używając GUID)
             string uniqueId = System.Guid.NewGuid().ToString();
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "UserId", uniqueId } });
 
-            // Ustawianie UserId w PhotonPlayer
             photonView.Owner.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "UserId", uniqueId } });
             Debug.Log($"Ustawiono UserId dla gracza {PhotonNetwork.LocalPlayer.NickName}: {uniqueId}");
         }
-
+        
+        hostMenu.SetActive(false);
+        normalMenu.SetActive(false);
+        
         AddPlayerToGlobalList(player);
     }
 

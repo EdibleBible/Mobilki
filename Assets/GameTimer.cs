@@ -16,14 +16,20 @@ public class GameTimer : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject hostPlayerMenu;
     [SerializeField] private GameObject normalPlayerMenu;
     [SerializeField] private TextMeshProUGUI winInformationText;
+    [SerializeField] private TimerUI timerUI;
+
+    private const string IsGameRunningKey = "IsGameRunning";
 
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             StartTime = PhotonNetwork.Time; // Zapisujemy czas początkowy gry
-            // Ustawiamy StartTime w CustomProperties pokoju tylko raz, na początku
-            Hashtable roomProperties = new Hashtable { { "StartTime", StartTime } };
+            Hashtable roomProperties = new Hashtable
+            {
+                { "StartTime", StartTime },
+                { IsGameRunningKey, false } // Domyślnie gra jest wyłączona
+            };
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
         }
         else
@@ -36,9 +42,9 @@ public class GameTimer : MonoBehaviourPunCallbacks
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (!gameEnded)
+        if (!gameEnded && IsGameRunning())
         {
             double elapsedTime = PhotonNetwork.Time - StartTime;
 
@@ -88,12 +94,46 @@ public class GameTimer : MonoBehaviourPunCallbacks
                 winInformationText.text = $"You lose! Player {winner.Key.NickName} wins!";
             }
         }
-
         if (PhotonNetwork.IsMasterClient)
         {
             // Host wyświetla menu po zakończeniu czasu
             ShowHostMenu();
+            StopGame();
             photonView.RPC("DisplayWaitMessage", RpcTarget.Others);
+        }
+    }
+
+    private bool IsGameRunning()
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(IsGameRunningKey, out object isRunningObj))
+        {
+            return (bool)isRunningObj;
+        }
+        return false;
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+            roomProperties[IsGameRunningKey] = true;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+
+            StartTime = PhotonNetwork.Time; // Reset timera przy starcie gry
+            roomProperties["StartTime"] = StartTime;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+            timerUI.StartGameTimer();
+        }
+    }
+
+    public void StopGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+            roomProperties[IsGameRunningKey] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
         }
     }
 
