@@ -37,7 +37,7 @@ public class PlayerPickUpObject : MonoBehaviourPun
     private void Interact()
     {
         // Zmiana na BoxCast
-        if (!Physics.BoxCast(pickupTransform.position, Vector3.one * 0.5f, pickupTransform.forward, out RaycastHit hitObj, pickupTransform.rotation, pickupRange, pickupLayer))
+        if (!Physics.BoxCast(pickupTransform.position, Vector3.one * 0.8f, pickupTransform.forward, out RaycastHit hitObj, pickupTransform.rotation, pickupRange, pickupLayer))
             return;
 
         if(photonView.IsMine)
