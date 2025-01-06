@@ -20,6 +20,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject resetGameButton;
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private TextMeshProUGUI playerCountText; // Tekst wyświetlający liczbę graczy
+    [SerializeField] private GameObject gameEndedObj;
     private List<GameObject> globalPlayerList = new List<GameObject>();
     
     private Dictionary<string, GameObject> playerItems = new Dictionary<string, GameObject>();
@@ -31,6 +32,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             hostMenu.SetActive(true);
             startGameButton.SetActive(true);
             resetGameButton.SetActive(false);
+            gameEndedObj.SetActive(false);
             UpdatePlayerCountUI();
         }
         else
@@ -82,6 +84,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         // Wywołanie RPC na wszystkich klientach, aby każdy gracz zespawnował swojego gracza
         startGameButton.SetActive(false);
         resetGameButton.SetActive(true);
+        gameEndedObj.SetActive(true);
         photonView.RPC("FirstPlayerSpawn", RpcTarget.All);
         gameTimer.StartGame();
     }
