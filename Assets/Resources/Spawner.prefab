@@ -126,6 +126,7 @@ MonoBehaviour:
   - {fileID: 7541662230150199008, guid: c35545b8341625044927aa57217283ea, type: 3}
   - {fileID: 7541662230150199008, guid: 8aed53a891851a14281e07b0e438b2d6, type: 3}
   - {fileID: 7541662230150199008, guid: be84392f0dcf5574486c680922a49787, type: 3}
+  - {fileID: 3936934665047293849, guid: a5810b9b58a749f4db83fbf68442e401, type: 3}
   pickableLayer:
     serializedVersion: 2
     m_Bits: 64
